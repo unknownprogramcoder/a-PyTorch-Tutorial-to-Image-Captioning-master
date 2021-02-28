@@ -195,8 +195,8 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
 
 # Load model
 def network_init(device):
-    #checkpoint = torch.load('BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar', map_location=str(device))
-    checkpoint = torch.load('../checkpoint/BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar', map_location=str(device))
+    checkpoint = torch.load('BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar', map_location=str(device))
+    #checkpoint = torch.load('../checkpoint/BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar', map_location=str(device))
     decoder = checkpoint['decoder']
     decoder = decoder.to(device)
     decoder.eval()
