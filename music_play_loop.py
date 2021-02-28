@@ -95,16 +95,31 @@ def playsound():
     fractures_chord.append(pygame.mixer.Sound('fractures/chord epiano frac1.wav'))
     fractures_chord.append(pygame.mixer.Sound('fractures/chord epiano frac2.wav'))
     fractures_chord.append(pygame.mixer.Sound('fractures/chord epiano frac3.wav'))
+    fractures_bass.append(pygame.mixer.Sound('fractures/bass guitar frac1.wav'))
+    fractures_bass.append(pygame.mixer.Sound('fractures/bass guitar frac2.wav'))
+    fractures_bass.append(pygame.mixer.Sound('fractures/bass guitar frac3.wav'))
+    fractures_bass.append(pygame.mixer.Sound('fractures/bass eguitar frac1.wav'))
+    fractures_bass.append(pygame.mixer.Sound('fractures/bass eguitar frac2.wav'))
+    fractures_bass.append(pygame.mixer.Sound('fractures/bass eguitar frac3.wav'))
+    fractures_agrement.append(pygame.mixer.Sound('fractures/agrement dreamy.wav'))
+    fractures_agrement.append(pygame.mixer.Sound('fractures/agrement space.wav'))
+    fractures_agrement.append(pygame.mixer.Sound('fractures/agrement meta.wav'))
+    fractures_pad.append(pygame.mixer.Sound('fractures/pad string.wav'))
+    fractures_pad.append(pygame.mixer.Sound('fractures/pad organ.wav'))
+    fractures_pad.append(pygame.mixer.Sound('fractures/pad flute.wav'))
+    fractures_percussion.append(pygame.mixer.Sound('fractures/percussion1.wav'))
+    fractures_percussion.append(pygame.mixer.Sound('fractures/percussion2.wav'))
+    fractures_percussion.append(pygame.mixer.Sound('fractures/percussion3.wav'))
 
-    vol_top = [0, 1, 0]
-    vol_chord = [0, 0, 1]
-    vol_bass = [0, 0, 0]
-    vol_agrement = [0]
-    vol_pad = [0]
-    vol_percussion = [0,0,0]
+    vol_top = [1, 1, 1]
+    vol_chord = [1, 1, 1]
+    vol_bass = [1, 1, 1]
+    vol_agrement = 1
+    vol_pad = 1
+    vol_percussion = 1
     col_top = [1,0]
     col_chord = [1,0]
-    col_bass = [1,0,0]
+    col_bass = [1,0]
     col_agrement = [1,0,0]
     col_pad = [1,0,0]
     col_percussion = [1,0,0]
@@ -119,7 +134,6 @@ def playsound():
             f.play(0)
         for f in fractures_chord:
             f.play(0)
-        '''
         for f in fractures_bass:
             f.play(0)
         for f in fractures_agrement:
@@ -128,7 +142,6 @@ def playsound():
             f.play(0)
         for f in fractures_percussion:
             f.play(0)
-        '''
         for c in range(len(col_top)):
             if col_top[c] == 0:
                 for f in range(len(vol_top)):
@@ -143,7 +156,6 @@ def playsound():
             elif col_chord[c] == 1:
                 for f in range(len(vol_chord)):
                     fractures_chord[f + len(vol_chord) * c].set_volume(vol_chord[f])
-        '''
         for c in range(len(col_bass)):
             if col_bass[c] == 0:
                 for f in range(len(vol_bass)):
@@ -153,26 +165,25 @@ def playsound():
                     fractures_bass[f + len(vol_bass) * c].set_volume(vol_bass[f])
         for c in range(len(col_agrement)):
             if col_agrement[c] == 0:
-                for f in range(len(vol_agrement)):
-                    fractures_agrement[f + len(vol_agrement) * c].set_volume(0)
+                for f in range(1):
+                    fractures_agrement[f + 1 * c].set_volume(0)
             elif col_agrement[c] == 1:
-                for f in range(len(vol_agrement)):
-                    fractures_agrement[f + len(vol_agrement) * c].set_volume(vol_agrement[f])
+                for f in range(1):
+                    fractures_agrement[f + 1 * c].set_volume(vol_agrement)
         for c in range(len(col_pad)):
             if col_pad[c] == 0:
-                for f in range(len(vol_pad)):
-                    fractures_pad[f + len(vol_pad) * c].set_volume(0)
+                for f in range(1):
+                    fractures_pad[f + 1 * c].set_volume(0)
             elif col_pad[c] == 1:
-                for f in range(len(vol_pad)):
-                    fractures_pad[f + len(vol_pad) * c].set_volume(vol_pad[f])
+                for f in range(1):
+                    fractures_pad[f + 1 * c].set_volume(vol_pad)
         for c in range(len(col_percussion)):
             if col_percussion[c] == 0:
-                for f in range(len(vol_percussion)):
-                    fractures_percussion[f + len(vol_percussion) * c].set_volume(0)
+                for f in range(1):
+                    fractures_percussion[f + 1 * c].set_volume(0)
             elif col_percussion[c] == 1:
-                for f in range(len(vol_percussion)):
-                    fractures_percussion[f + len(vol_percussion) * c].set_volume(vol_percussion[f])
-        '''
+                for f in range(1):
+                    fractures_percussion[f + 1 * c].set_volume(vol_percussion)
         screen.fill((255, 255, 255))
 
         font = pygame.font.SysFont("arial", 32, True, False)
@@ -266,11 +277,10 @@ def playsound():
                     vol_bass = volume_modify[6:9]
                     vol_agrement = volume_modify[9]
                     vol_pad = volume_modify[10]
-                    vol_percussion = volume_modify[11:14]
+                    vol_percussion = volume_modify[11]
                     col_top = [response(color_modify[0] == 0), response(color_modify[0] == 1)]
                     col_chord = [response(color_modify[1] == 0), response(color_modify[1] == 1)]
-                    col_bass = [response(color_modify[2] == 0), response(color_modify[2] == 1),
-                                response(color_modify[2] == 2)]
+                    col_bass = [response(color_modify[2] == 0), response(color_modify[2] == 1)]
                     col_agrement = [response(color_modify[3] == 0), response(color_modify[3] == 1),
                                     response(color_modify[3] == 2)]
                     col_pad = [response(color_modify[4] == 0), response(color_modify[4] == 1),
@@ -292,7 +302,6 @@ def playsound():
                         elif col_chord[c] == 1:
                             for f in range(len(vol_chord)):
                                 fractures_chord[f + len(vol_chord) * c].set_volume(vol_chord[f])
-                    '''
                     for c in range(len(col_bass)):
                         if col_bass[c] == 0:
                             for f in range(len(vol_bass)):
@@ -302,26 +311,25 @@ def playsound():
                                 fractures_bass[f + len(vol_bass) * c].set_volume(vol_bass[f])
                     for c in range(len(col_agrement)):
                         if col_agrement[c] == 0:
-                            for f in range(len(vol_agrement)):
-                                fractures_agrement[f + len(vol_agrement) * c].set_volume(0)
+                            for f in range(1):
+                                fractures_agrement[f + 1 * c].set_volume(0)
                         elif col_agrement[c] == 1:
-                            for f in range(len(vol_agrement)):
-                                fractures_agrement[f + len(vol_agrement) * c].set_volume(vol_agrement[f])
+                            for f in range(1):
+                                fractures_agrement[f + 1 * c].set_volume(vol_agrement)
                     for c in range(len(col_pad)):
                         if col_pad[c] == 0:
-                            for f in range(len(vol_pad)):
-                                fractures_pad[f + len(vol_pad) * c].set_volume(0)
+                            for f in range(1):
+                                fractures_pad[f + 1 * c].set_volume(0)
                         elif col_pad[c] == 1:
-                            for f in range(len(vol_pad)):
-                                fractures_pad[f + len(vol_pad) * c].set_volume(vol_pad[f])
+                            for f in range(1):
+                                fractures_pad[f + 1 * c].set_volume(vol_pad)
                     for c in range(len(col_percussion)):
                         if col_percussion[c] == 0:
-                            for f in range(len(vol_percussion)):
-                                fractures_percussion[f + len(vol_percussion) * c].set_volume(0)
+                            for f in range(1):
+                                fractures_percussion[f + 1 * c].set_volume(0)
                         elif col_percussion[c] == 1:
-                            for f in range(len(vol_percussion)):
-                                fractures_percussion[f + len(vol_percussion) * c].set_volume(vol_percussion[f])
-                    '''
+                            for f in range(1):
+                                fractures_percussion[f + 1 * c].set_volume(vol_percussion)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     Running = False
@@ -343,11 +351,10 @@ def playsound():
                     vol_bass = volume_modify[6:9]
                     vol_agrement = volume_modify[9]
                     vol_pad = volume_modify[10]
-                    vol_percussion = volume_modify[11:14]
+                    vol_percussion = volume_modify[11]
                     col_top = [response(color_modify[0] == 0), response(color_modify[0] == 1)]
                     col_chord = [response(color_modify[1] == 0), response(color_modify[1] == 1)]
-                    col_bass = [response(color_modify[2] == 0), response(color_modify[2] == 1),
-                                response(color_modify[2] == 2)]
+                    col_bass = [response(color_modify[2] == 0), response(color_modify[2] == 1)]
                     col_agrement = [response(color_modify[3] == 0), response(color_modify[3] == 1),
                                     response(color_modify[3] == 2)]
                     col_pad = [response(color_modify[4] == 0), response(color_modify[4] == 1),
@@ -458,11 +465,10 @@ def playsound():
                         vol_bass = volume_modify[6:9]
                         vol_agrement = volume_modify[9]
                         vol_pad = volume_modify[10]
-                        vol_percussion = volume_modify[11:14]
+                        vol_percussion = volume_modify[11]
                         col_top = [response(color_modify[0] == 0), response(color_modify[0] == 1)]
                         col_chord = [response(color_modify[1] == 0), response(color_modify[1] == 1)]
-                        col_bass = [response(color_modify[2] == 0), response(color_modify[2] == 1),
-                                    response(color_modify[2] == 2)]
+                        col_bass = [response(color_modify[2] == 0), response(color_modify[2] == 1)]
                         col_agrement = [response(color_modify[3] == 0), response(color_modify[3] == 1),
                                         response(color_modify[3] == 2)]
                         col_pad = [response(color_modify[4] == 0), response(color_modify[4] == 1),
@@ -484,7 +490,6 @@ def playsound():
                             elif col_chord[c] == 1:
                                 for f in range(len(vol_chord)):
                                     fractures_chord[f + len(vol_chord) * c].set_volume(vol_chord[f])
-                        '''
                         for c in range(len(col_bass)):
                             if col_bass[c] == 0:
                                 for f in range(len(vol_bass)):
@@ -494,26 +499,25 @@ def playsound():
                                     fractures_bass[f + len(vol_bass) * c].set_volume(vol_bass[f])
                         for c in range(len(col_agrement)):
                             if col_agrement[c] == 0:
-                                for f in range(len(vol_agrement)):
-                                    fractures_agrement[f + len(vol_agrement) * c].set_volume(0)
+                                for f in range(1):
+                                    fractures_agrement[f + 1 * c].set_volume(0)
                             elif col_agrement[c] == 1:
-                                for f in range(len(vol_agrement)):
-                                    fractures_agrement[f + len(vol_agrement) * c].set_volume(vol_agrement[f])
+                                for f in range(1):
+                                    fractures_agrement[f + 1 * c].set_volume(vol_agrement)
                         for c in range(len(col_pad)):
                             if col_pad[c] == 0:
-                                for f in range(len(vol_pad)):
-                                    fractures_pad[f + len(vol_pad) * c].set_volume(0)
+                                for f in range(1):
+                                    fractures_pad[f + 1 * c].set_volume(0)
                             elif col_pad[c] == 1:
-                                for f in range(len(vol_pad)):
-                                    fractures_pad[f + len(vol_pad) * c].set_volume(vol_pad[f])
+                                for f in range(1):
+                                    fractures_pad[f + 1 * c].set_volume(vol_pad)
                         for c in range(len(col_percussion)):
                             if col_percussion[c] == 0:
-                                for f in range(len(vol_percussion)):
-                                    fractures_percussion[f + len(vol_percussion) * c].set_volume(0)
+                                for f in range(1):
+                                    fractures_percussion[f + 1 * c].set_volume(0)
                             elif col_percussion[c] == 1:
-                                for f in range(len(vol_percussion)):
-                                    fractures_percussion[f + len(vol_percussion) * c].set_volume(vol_percussion[f])
-                        '''
+                                for f in range(1):
+                                    fractures_percussion[f + 1 * c].set_volume(vol_percussion)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         Running = False
@@ -535,10 +539,10 @@ def playsound():
                         vol_bass = volume_modify[6:9]
                         vol_agrement = volume_modify[9]
                         vol_pad = volume_modify[10]
-                        vol_percussion = volume_modify[11:14]
+                        vol_percussion = volume_modify[11]
                         col_top = [response(color_modify[0]==0), response(color_modify[0]==1)]
                         col_chord = [response(color_modify[1]==0), response(color_modify[1]==1)]
-                        col_bass = [response(color_modify[2]==0), response(color_modify[2]==1), response(color_modify[2]==2)]
+                        col_bass = [response(color_modify[2]==0), response(color_modify[2]==1)]
                         col_agrement = [response(color_modify[3]==0), response(color_modify[3]==1), response(color_modify[3]==2)]
                         col_pad = [response(color_modify[4]==0), response(color_modify[4]==1), response(color_modify[4]==2)]
                         col_percussion = [response(color_modify[5]==0), response(color_modify[5]==1), response(color_modify[5]==2)]
@@ -557,7 +561,6 @@ def playsound():
                             elif col_chord[c] == 1:
                                 for f in range(len(vol_chord)):
                                     fractures_chord[f + len(vol_chord) * c].set_volume(vol_chord[f])
-                        '''
                         for c in range(len(col_bass)):
                             if col_bass[c] == 0:
                                 for f in range(len(vol_bass)):
@@ -567,26 +570,25 @@ def playsound():
                                     fractures_bass[f + len(vol_bass) * c].set_volume(vol_bass[f])
                         for c in range(len(col_agrement)):
                             if col_agrement[c] == 0:
-                                for f in range(len(vol_agrement)):
-                                    fractures_agrement[f + len(vol_agrement) * c].set_volume(0)
+                                for f in range(1):
+                                    fractures_agrement[f + 1 * c].set_volume(0)
                             elif col_agrement[c] == 1:
-                                for f in range(len(vol_agrement)):
-                                    fractures_agrement[f + len(vol_agrement) * c].set_volume(vol_agrement[f])
+                                for f in range(1):
+                                    fractures_agrement[f + 1 * c].set_volume(vol_agrement)
                         for c in range(len(col_pad)):
                             if col_pad[c] == 0:
-                                for f in range(len(vol_pad)):
-                                    fractures_pad[f + len(vol_pad) * c].set_volume(0)
+                                for f in range(1):
+                                    fractures_pad[f + 1 * c].set_volume(0)
                             elif col_pad[c] == 1:
-                                for f in range(len(vol_pad)):
-                                    fractures_pad[f + len(vol_pad) * c].set_volume(vol_pad[f])
+                                for f in range(1):
+                                    fractures_pad[f + 1 * c].set_volume(vol_pad)
                         for c in range(len(col_percussion)):
                             if col_percussion[c] == 0:
-                                for f in range(len(vol_percussion)):
-                                    fractures_percussion[f + len(vol_percussion) * c].set_volume(0)
+                                for f in range(1):
+                                    fractures_percussion[f + 1 * c].set_volume(0)
                             elif col_percussion[c] == 1:
-                                for f in range(len(vol_percussion)):
-                                    fractures_percussion[f + len(vol_percussion) * c].set_volume(vol_percussion[f])
-                        '''
+                                for f in range(1):
+                                    fractures_percussion[f + 1 * c].set_volume(vol_percussion)
             if doAddFrac > 0:
                 doAddFrac -= 1
             if existingFrac > 0:

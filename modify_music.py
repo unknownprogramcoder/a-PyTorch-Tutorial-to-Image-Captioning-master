@@ -16,7 +16,7 @@ def text_slice(texts):
     return words
 '''
 
-volume_modify = [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+volume_modify = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 color_modify = [0, 0, 0, 0, 0, 0]
 
 def interpret_words(words):
@@ -27,10 +27,10 @@ def interpret_words(words):
                          "6", "7", "8",
                          "9",
                          "10",
-                         "11", "12", "13")
-    keywords_color = ("red", "blue", "green",
-                      "yellow", "black", "white",
-                      "orange", "pink", "purple",
+                         "11")
+    keywords_color = ("red", "blue",
+                      "yellow", "black",
+                      "orange", "pink",
                       "9", "10", "11",
                       "12", "13", "14",
                       "15", "16", "17")
@@ -44,6 +44,9 @@ def interpret_words(words):
                     existingFrac = 60
         for kc in range(len(keywords_color)):
             if word == keywords_color[kc]:
-                color_modify[kc // 3] = kc % 3
+                if kc<=5:
+                    color_modify[kc // 2] = kc % 2
+                elif kc>5:
+                    color_modify[kc // 3] = kc % 3
                 doChangeInst = 60
     return doAddFrac, existingFrac, doChangeInst
