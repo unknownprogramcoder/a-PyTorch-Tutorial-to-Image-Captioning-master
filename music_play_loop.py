@@ -2,6 +2,7 @@ import torch
 import pygame
 import random
 import cv2
+import numpy
 from caption import network_init, image_captioning
 from modify_music import volume_modify, color_modify
 from modify_music import interpret_words
@@ -19,14 +20,34 @@ def playsound():
     pygame.init()
     pygame.mixer.init()
     pygame.mixer.set_num_channels(128)
-    WIDTH = 800
-    HEIGHT = 600
+    WIDTH = 1280
+    HEIGHT = 800
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Art Bus 13 : Gathering Music Fractures using Images ")
     clock = pygame.time.Clock()
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    encoder, decoder, word_map, rev_word_map = network_init(device)
+
+    capture = cv2.VideoCapture(0)
+    capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+    print(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+    print(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
     screen.fill((255, 255, 255))
 
+    ret, frame = capture.read()
+    frame1 = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    flipped = cv2.flip(frame1, 1)
+    #flipped = numpy.rot90(flipped)
+    flipped = pygame.surfarray.make_surface(flipped)
+    # cv2.imshow("VideoFrame", flipped)
+    # pygame.surfarray.blit_array(screen, flipped)
+    screen.blit(flipped, (0, 0))
+
     caption_sentence = "Caption of the Image Here"
+
     font = pygame.font.SysFont("arial", 32, True, False)
     text_Title = font.render(caption_sentence, True, (0, 0, 0))
     text_Rect = text_Title.get_rect()
@@ -71,12 +92,6 @@ def playsound():
 
     pygame.display.flip()
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    encoder, decoder, word_map, rev_word_map = network_init(device)
-    capture = cv2.VideoCapture(0)
-    capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-
     fractures_top = []
     fractures_chord = []
     fractures_bass = []
@@ -111,18 +126,21 @@ def playsound():
     fractures_percussion.append(pygame.mixer.Sound('fractures/percussion2.wav'))
     fractures_percussion.append(pygame.mixer.Sound('fractures/percussion3.wav'))
 
-    vol_top = [1, 1, 1]
-    vol_chord = [1, 1, 1]
-    vol_bass = [1, 1, 1]
-    vol_agrement = 1
-    vol_pad = 1
-    vol_percussion = 1
-    col_top = [1,0]
-    col_chord = [1,0]
-    col_bass = [1,0]
-    col_agrement = [1,0,0]
-    col_pad = [1,0,0]
-    col_percussion = [1,0,0]
+    vol_top = volume_modify[0:3]
+    vol_chord = volume_modify[3:6]
+    vol_bass = volume_modify[6:9]
+    vol_agrement = volume_modify[9]
+    vol_pad = volume_modify[10]
+    vol_percussion = volume_modify[11]
+    col_top = [response(color_modify[0] == 0), response(color_modify[0] == 1)]
+    col_chord = [response(color_modify[1] == 0), response(color_modify[1] == 1)]
+    col_bass = [response(color_modify[2] == 0), response(color_modify[2] == 1)]
+    col_agrement = [response(color_modify[3] == 0), response(color_modify[3] == 1),
+                    response(color_modify[3] == 2)]
+    col_pad = [response(color_modify[4] == 0), response(color_modify[4] == 1),
+               response(color_modify[4] == 2)]
+    col_percussion = [response(color_modify[5] == 0), response(color_modify[5] == 1),
+                      response(color_modify[5] == 2)]
 
     Running = True
     doAddFrac = 0
@@ -186,6 +204,15 @@ def playsound():
                     fractures_percussion[f + 1 * c].set_volume(vol_percussion)
         screen.fill((255, 255, 255))
 
+        ret, frame = capture.read()
+        frame1 = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        flipped = cv2.flip(frame1, 1)
+        flipped = numpy.rot90(flipped)
+        flipped = pygame.surfarray.make_surface(flipped)
+        #cv2.imshow("VideoFrame", flipped)
+        #pygame.surfarray.blit_array(screen, flipped)
+        screen.blit(flipped, (0, 0))
+
         font = pygame.font.SysFont("arial", 32, True, False)
         text_Title = font.render(caption_sentence, True, (0, 0, 0))
         text_Rect = text_Title.get_rect()
@@ -228,21 +255,21 @@ def playsound():
         screen.blit(text_button, text_Rect_button)
 
         if doAddFrac > 0:
-            font1 = pygame.font.SysFont("malgungothic", 36, True, False)
+            font1 = pygame.font.SysFont("malgungothic", 24, True, False)
             text_Title1 = font1.render("음악 조각 추가!", True, (0, 0, 255))
             text_Rect1 = text_Title1.get_rect()
             text_Rect1.centerx = round(WIDTH / 4)
             text_Rect1.centery = round(HEIGHT * 9 / 16)
             screen.blit(text_Title1, text_Rect1)
         if existingFrac > 0:
-            font2 = pygame.font.SysFont("malgungothic", 36, True, False)
+            font2 = pygame.font.SysFont("malgungothic", 24, True, False)
             text_Title2 = font2.render("이미 연주 중..", True, (255, 0, 0))
             text_Rect2 = text_Title2.get_rect()
             text_Rect2.centerx = round(WIDTH / 2)
             text_Rect2.centery = round(HEIGHT * 9 / 16)
             screen.blit(text_Title2, text_Rect2)
         if doChangeInst > 0:
-            font3 = pygame.font.SysFont("malgungothic", 36, True, False)
+            font3 = pygame.font.SysFont("malgungothic", 24, True, False)
             text_Title3 = font3.render("악기 재설정!", True, (255, 0, 255))
             text_Rect3 = text_Title3.get_rect()
             text_Rect3.centerx = round(WIDTH * 3 / 4)
@@ -250,13 +277,9 @@ def playsound():
             screen.blit(text_Title3, text_Rect3)
         pygame.display.flip()
 
-        ret, frame = capture.read()
-        flipped = cv2.flip(frame, 1)
-        cv2.imshow("VideoFrame", flipped)
-
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                Running = False
+            #if event.type == pygame.QUIT:
+                #Running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if text_Rect_button.topleft[0] <= mouse[0] <= text_Rect_button.bottomright[0] and \
                         text_Rect_button.topleft[1] <= mouse[1] <= text_Rect_button.bottomright[1]:
@@ -373,6 +396,15 @@ def playsound():
         while Running and pygame.mixer.get_busy():
             screen.fill((255, 255, 255))
 
+            ret, frame = capture.read()
+            frame1 = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            flipped = cv2.flip(frame1, 1)
+            flipped = numpy.rot90(flipped)
+            flipped = pygame.surfarray.make_surface(flipped)
+            # cv2.imshow("VideoFrame", flipped)
+            #pygame.surfarray.blit_array(screen, flipped)
+            screen.blit(flipped, (0, 0))
+
             font = pygame.font.SysFont("arial", 32, True, False)
             text_Title = font.render(caption_sentence, True, (0, 0, 0))
             text_Rect = text_Title.get_rect()
@@ -417,21 +449,21 @@ def playsound():
             screen.blit(text_button, text_Rect_button)
 
             if doAddFrac > 0:
-                font1 = pygame.font.SysFont("malgungothic", 36, True, False)
+                font1 = pygame.font.SysFont("malgungothic", 24, True, False)
                 text_Title1 = font1.render("음악 조각 추가!", True, (0, 0, 255))
                 text_Rect1 = text_Title1.get_rect()
                 text_Rect1.centerx = round(WIDTH / 4)
                 text_Rect1.centery = round(HEIGHT * 9 / 16)
                 screen.blit(text_Title1, text_Rect1)
             if existingFrac > 0:
-                font2 = pygame.font.SysFont("malgungothic", 36, True, False)
+                font2 = pygame.font.SysFont("malgungothic", 24, True, False)
                 text_Title2 = font2.render("이미 연주 중..", True, (255, 0, 0))
                 text_Rect2 = text_Title2.get_rect()
                 text_Rect2.centerx = round(WIDTH / 2)
                 text_Rect2.centery = round(HEIGHT * 9 / 16)
                 screen.blit(text_Title2, text_Rect2)
             if doChangeInst > 0:
-                font3 = pygame.font.SysFont("malgungothic", 36, True, False)
+                font3 = pygame.font.SysFont("malgungothic", 24, True, False)
                 text_Title3 = font3.render("악기 재설정!", True, (255, 0, 255))
                 text_Rect3 = text_Title3.get_rect()
                 text_Rect3.centerx = round(WIDTH * 3 / 4)
@@ -439,13 +471,9 @@ def playsound():
                 screen.blit(text_Title3, text_Rect3)
             pygame.display.flip()
 
-            ret, frame = capture.read()
-            flipped = cv2.flip(frame, 1)
-            cv2.imshow("VideoFrame", flipped)
-
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    Running = False
+                #if event.type == pygame.QUIT:
+                    #Running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if text_Rect_button.topleft[0] <= mouse[0] <= text_Rect_button.bottomright[0] and text_Rect_button.topleft[1] <= mouse[1] <= text_Rect_button.bottomright[1]:
                         # str = Network.forward(image)

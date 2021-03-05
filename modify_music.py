@@ -17,7 +17,7 @@ def text_slice(texts):
 '''
 
 volume_modify = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-color_modify = [0, 0, 0, 0, 0, 0]
+color_modify = [1, 1, 1, 1, 1, 0]
 
 def interpret_words(words):
     doAddFrac, existingFrac, doChangeInst = 0, 0, 0
