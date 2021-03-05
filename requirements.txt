@@ -1,30 +1,30 @@
 certifi==2020.12.5
-cffi @ file:///C:/ci/cffi_1613247269562/work
+cffi
 cycler==0.10.0
 dask==2021.2.0
 decorator==4.4.2
 imageio==2.9.0
-kiwisolver @ file:///C:/ci/kiwisolver_1612282446297/work
+kiwisolver
 matplotlib==3.1.1
 mkl-fft==1.0.6
 networkx==2.5
 numpy==1.15.1
 olefile==0.46
 opencv-python==4.5.1.48
-Pillow @ file:///C:/ci/pillow_1609842634117/work
-pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
+Pillow
+pycparser
 pygame==2.0.1
-pyparsing @ file:///home/linux1/recipes/ci/pyparsing_1610983426697/work
-python-dateutil @ file:///home/ktietz/src/ci/python-dateutil_1611928101742/work
-pytz @ file:///tmp/build/80754af9/pytz_1612215392582/work
+pyparsing
+python-dateutil
+pytz
 PyWavelets==1.1.1
 PyYAML==5.4.1
 scikit-image==0.16.1
 scipy==1.0.1
-six @ file:///C:/ci/six_1605187303045/work
+six
 tifffile==2020.9.3
 toolz==0.11.1
 torch==0.4.1
 torchvision==0.2.0
-tornado @ file:///C:/ci/tornado_1606942379977/work
+tornado
 wincertstore==0.2

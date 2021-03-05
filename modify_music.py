@@ -47,6 +47,6 @@ def interpret_words(words):
                 if kc<=5:
                     color_modify[kc // 2] = kc % 2
                 elif kc>5:
-                    color_modify[kc // 3] = kc % 3
+                    color_modify[(kc-6) // 3 + 3] = (kc-6) % 3
                 doChangeInst = 60
     return doAddFrac, existingFrac, doChangeInst
