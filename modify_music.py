@@ -17,10 +17,11 @@ def text_slice(texts):
 '''
 
 volume_modify = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-color_modify = [1, 1, 1, 1, 1, 0]
+color_modify = [0, 0, 0, 0, 0, 0]
 
 def interpret_words(words):
-    doAddFrac, existingFrac, doChangeInst = 0, 0, 0
+    global volume_modify, color_modify
+    doAddFrac, existingFrac, doChangeInst, InstUnchanged = 0, 0, 0, 0
     # 명사:파편, 동사, 전치사, 형용사 등: 음색? # 복수명사 처리도 대충 하자
     keywords_fracture = ("hand", "mouth", "ear", #안경, 가위, 폰, 카메라, 타이, 벽, blurry, dark, hat
                          "glasses", "scissors", "tie",
@@ -49,4 +50,4 @@ def interpret_words(words):
                 elif kc>5:
                     color_modify[(kc-6) // 3 + 3] = (kc-6) % 3
                 doChangeInst = 60
-    return doAddFrac, existingFrac, doChangeInst
+    return doAddFrac, existingFrac, doChangeInst, InstUnchanged
